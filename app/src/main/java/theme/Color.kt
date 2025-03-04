@@ -1,4 +1,4 @@
-package com.example.attendanceapp.ui.theme
+package theme
 
 import androidx.compose.ui.graphics.Color
 
