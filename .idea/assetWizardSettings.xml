@@ -309,8 +309,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_check" />
-                            <entry key="sourceFile" value="C:\Users\chach\IdeaProjects\AttendanceApp" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="ic_launcher" />
+                            <entry key="sourceFile" value="C:\Users\chach\Downloads\logoMark.svg" />
                           </map>
                         </option>
                       </PersistentState>
