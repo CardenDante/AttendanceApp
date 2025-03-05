@@ -31,11 +31,12 @@
                 android:background="@drawable/bg_status_success"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="2dp"
-                android:textColor="@color/white"
+                android:textColor="#FFFFFF"
+                android:text="Correct"
                 android:textSize="12sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Correct" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
                 android:id="@+id/tvParticipantName"

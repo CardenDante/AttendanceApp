@@ -1,5 +1,6 @@
 package com.example.attendanceapp.adapters
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,18 +33,14 @@ class RecentScansAdapter : ListAdapter<ScanEntry, RecentScansAdapter.ScanViewHol
             tvScanTime.text = scan.timestamp
             tvParticipantName.text = scan.name
             tvParticipantId.text = "ID: ${scan.id}"
+
+            // Set status text
             tvScanStatus.text = scan.status
 
-            // Set text color based on status
-            val context = itemView.context
-            val color = if (scan.status == "Correct") {
-                context.getColor(R.color.success)
-            } else {
-                context.getColor(R.color.error)
-            }
-            tvScanStatus.setTextColor(color)
+            // Set text color to white (using Color constant to avoid ambiguity)
+            tvScanStatus.setTextColor(Color.WHITE)
 
-            // Optionally set background based on status
+            // Set background based on status
             tvScanStatus.setBackgroundResource(
                 if (scan.status == "Correct") R.drawable.bg_status_success
                 else R.drawable.bg_status_error

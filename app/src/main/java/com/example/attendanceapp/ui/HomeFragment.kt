@@ -1,6 +1,7 @@
 package com.example.attendanceapp.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -82,6 +83,7 @@ class HomeFragment : Fragment() {
             }
         }
 
+        // Observe scanner data for day and session info
         viewModel.scannerData.observe(viewLifecycleOwner) { data: ScannerDataResponse ->
             // Update day and current session
             tvDay.text = "Today: ${data.day_name}"
@@ -91,19 +93,34 @@ class HomeFragment : Fragment() {
             } else {
                 tvCurrentSession.text = "No current session"
             }
+        }
 
-            // Update recent scans
-            if (data.recent_scans.isEmpty()) {
+        // Observe local scan history for the scan list
+        viewModel.localScanHistory.observe(viewLifecycleOwner) { scansList ->
+            // Log the data to debug
+            Log.d("RecentScansDebug", "Local scan history received with ${scansList.size} scans")
+            for (scan in scansList) {
+                Log.d("RecentScansDebug", "Scan: ${scan.timestamp} - ${scan.name} - ${scan.status}")
+            }
+
+            // Update recent scans UI
+            if (scansList.isEmpty()) {
                 rvRecentScans.visibility = View.GONE
                 tvNoScans.visibility = View.VISIBLE
             } else {
                 rvRecentScans.visibility = View.VISIBLE
                 tvNoScans.visibility = View.GONE
-                recentScansAdapter.submitList(data.recent_scans as List<ScanEntry>)
+                recentScansAdapter.submitList(scansList)
             }
         }
 
-        // Load data
+        // Load data immediately when fragment is created
+        viewModel.loadScannerData()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Refresh data each time the fragment becomes visible
         viewModel.loadScannerData()
     }
 }

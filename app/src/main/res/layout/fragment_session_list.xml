@@ -19,7 +19,7 @@
             android:id="@+id/tvDay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Day: Loading..."
+            android:text="Day: Saturday"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@id/tvSessionsTitle"
             app:layout_constraintStart_toStartOf="parent"
@@ -60,12 +60,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+    <TextView
+            android:id="@+id/tvNoSessions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="No sessions available"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/rgDays"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
     <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rgDays"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

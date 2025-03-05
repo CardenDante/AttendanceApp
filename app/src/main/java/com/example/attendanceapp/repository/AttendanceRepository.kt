@@ -7,11 +7,16 @@ class AttendanceRepository {
     private val apiService = ApiClient.apiService
 
     suspend fun getScannerData(testDay: String? = null): ScannerDataResponse {
-        val response = apiService.getScannerData(testDay)
-        if (response.isSuccessful && response.body() != null) {
-            return response.body()!!
-        } else {
-            throw Exception("Failed to load scanner data: ${response.message()}")
+        try {
+            val response = apiService.getScannerData(testDay)
+            if (response.isSuccessful && response.body() != null) {
+                val data = response.body()!!
+                return data
+            } else {
+                throw Exception("Failed to load scanner data: ${response.message()}")
+            }
+        } catch (e: Exception) {
+            throw e
         }
     }
 

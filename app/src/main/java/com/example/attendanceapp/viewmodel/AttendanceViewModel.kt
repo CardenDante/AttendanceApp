@@ -1,8 +1,9 @@
 package com.example.attendanceapp.viewmodel
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.attendanceapp.models.ScanEntry
 import com.example.attendanceapp.models.ScannerDataResponse
@@ -10,10 +11,15 @@ import com.example.attendanceapp.models.Session
 import com.example.attendanceapp.models.SessionsResponse
 import com.example.attendanceapp.models.VerificationResponse
 import com.example.attendanceapp.repository.AttendanceRepository
+import com.example.attendanceapp.utils.StorageManager
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
-class AttendanceViewModel : ViewModel() {
+class AttendanceViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = AttendanceRepository()
+    private val storageManager = StorageManager(application)
 
     // Loading state
     private val _loading = MutableLiveData<Boolean>()
@@ -35,6 +41,15 @@ class AttendanceViewModel : ViewModel() {
     private val _sessions = MutableLiveData<List<Session>>()
     val sessions: LiveData<List<Session>> = _sessions
 
+    // Local scan history
+    private val _localScanHistory = MutableLiveData<List<ScanEntry>>()
+    val localScanHistory: LiveData<List<ScanEntry>> = _localScanHistory
+
+    init {
+        // Load saved scans when ViewModel is created
+        _localScanHistory.value = storageManager.getRecentScans()
+    }
+
     fun loadScannerData(testDay: String? = null) {
         _loading.value = true
         _error.value = null
@@ -42,6 +57,15 @@ class AttendanceViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val result = repository.getScannerData(testDay)
+
+                // If we want to incorporate server scans with local ones
+                // (Optional - you can remove this if you only want local scans)
+                val serverScans = result.recent_scans
+                if (serverScans.isNotEmpty()) {
+                    storageManager.addAllScans(serverScans)
+                    _localScanHistory.value = storageManager.getRecentScans()
+                }
+
                 _scannerData.value = result
                 _loading.value = false
             } catch (e: Exception) {
@@ -59,9 +83,21 @@ class AttendanceViewModel : ViewModel() {
             try {
                 val result = repository.verifyAttendance(uniqueId, sessionTime)
                 _verificationResult.value = result
+
+                // Add scan to local history
+                val scan = ScanEntry(
+                    timestamp = getCurrentTime(),
+                    id = uniqueId,
+                    name = result.participant?.name ?: "Unknown",
+                    status = if (result.success) "Correct" else "Incorrect",
+                    message = result.message ?: ""
+                )
+                storageManager.addScan(scan)
+
+                // Update LiveData with new scan list
+                _localScanHistory.value = storageManager.getRecentScans()
+
                 _loading.value = false
-                // Refresh scanner data to update recent scans
-                loadScannerData()
             } catch (e: Exception) {
                 _error.value = e.message
                 _loading.value = false
@@ -91,9 +127,14 @@ class AttendanceViewModel : ViewModel() {
 
         viewModelScope.launch {
             try {
+                // Clear server history
                 repository.clearHistory()
-                // Refresh scanner data
-                loadScannerData()
+
+                // Clear local history
+                storageManager.clearScanHistory()
+                _localScanHistory.value = emptyList()
+
+                _loading.value = false
             } catch (e: Exception) {
                 _error.value = e.message
                 _loading.value = false
@@ -103,5 +144,9 @@ class AttendanceViewModel : ViewModel() {
 
     fun clearError() {
         _error.value = null
+    }
+
+    private fun getCurrentTime(): String {
+        return SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
     }
 }

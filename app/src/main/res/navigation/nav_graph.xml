@@ -12,10 +12,14 @@
             tools:layout="@layout/fragment_home">
         <action
                 android:id="@+id/action_homeFragment_to_scannerFragment"
-                app:destination="@id/scannerFragment" />
+                app:destination="@id/scannerFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim" />
         <action
                 android:id="@+id/action_homeFragment_to_sessionListFragment"
-                app:destination="@id/sessionListFragment" />
+                app:destination="@id/sessionListFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
 
     <fragment
@@ -25,7 +29,9 @@
             tools:layout="@layout/fragment_scanner">
         <action
                 android:id="@+id/action_scannerFragment_to_verificationResultFragment"
-                app:destination="@id/verificationResultFragment" />
+                app:destination="@id/verificationResultFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
 
     <fragment
@@ -41,10 +47,16 @@
             tools:layout="@layout/fragment_verification_result">
         <action
                 android:id="@+id/action_verificationResultFragment_to_homeFragment"
-                app:destination="@id/homeFragment" />
+                app:destination="@id/homeFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popUpTo="@id/homeFragment"
+                app:popUpToInclusive="true" />
         <action
                 android:id="@+id/action_verificationResultFragment_to_scannerFragment"
-                app:destination="@id/scannerFragment" />
+                app:destination="@id/scannerFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
 
 </navigation>
