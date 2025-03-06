@@ -17,7 +17,7 @@ QCall is a modern, user-friendly Android application designed for efficiently ma
   <tr>
     <td><img src="screenshots/home_screen.PNG" alt="Home Screen" width="200"/></td>
     <td><img src="screenshots/scanner_screen.PNG" alt="Scanner Screen" width="200"/></td>
-    <td><img src="screenshots/sessions_screen.png" alt="Sessions Screen" width="200"/></td>
+    <td><img src="screenshots/sessions_screen.PNG" alt="Sessions Screen" width="200"/></td>
   </tr>
 </table>
 
