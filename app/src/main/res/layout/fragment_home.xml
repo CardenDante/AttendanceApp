@@ -9,157 +9,407 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:layout_height="wrap_content">
 
-        <TextView
-                android:id="@+id/tvTitle"
-                style="@style/TextAppearance.AttendanceApp.Headline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Attendance Tracker"
+        <!-- Header background with simplified design -->
+        <View
+                android:id="@+id/headerBackground"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:background="@color/primary"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Enhanced header with accent element -->
+        <View
+                android:id="@+id/headerAccent"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:alpha="0.1"
+                android:background="@drawable/header_circle"
+                android:layout_marginTop="-40dp"
+                android:layout_marginEnd="-30dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- User greeting section in header - now the main focus -->
+        <TextView
+                android:id="@+id/tvGreeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="44dp"
+                android:text="Welcome back,"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:alpha="0.9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+                android:id="@+id/tvUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="6dp"
+                android:text="Administrator"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvGreeting" />
+
+        <!-- Current Session Card with shadow and better spacing -->
         <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardCurrentSession"
                 style="@style/Widget.AttendanceApp.CardView"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvTitle">
+                app:layout_constraintTop_toBottomOf="@id/headerBackground">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:padding="24dp">
 
-                <TextView
-                        android:id="@+id/tvSessionInfoTitle"
-                        style="@style/TextAppearance.AttendanceApp.Subtitle"
+                <!-- Session title with status dot -->
+                <LinearLayout
+                        android:id="@+id/sessionTitleContainer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Current Session"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                            android:id="@+id/tvSessionInfoTitle"
+                            style="@style/TextAppearance.AttendanceApp.Subtitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Current Session"
+                            android:textColor="@color/primary"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                    <View
+                            android:id="@+id/statusDot"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:layout_marginStart="8dp"
+                            android:background="@drawable/status_dot"
+                            android:backgroundTint="@color/success" />
+
+                </LinearLayout>
 
                 <TextView
                         android:id="@+id/tvDay"
                         style="@style/TextAppearance.AttendanceApp.Body"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="20dp"
                         android:text="Today: Loading..."
+                        android:textColor="@color/text_secondary"
+                        android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvSessionInfoTitle" />
+                        app:layout_constraintTop_toBottomOf="@id/sessionTitleContainer" />
 
                 <TextView
                         android:id="@+id/tvCurrentSession"
                         style="@style/TextAppearance.AttendanceApp.Body"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="8dp"
                         android:text="Loading..."
+                        android:textColor="@color/dark_gray"
+                        android:textSize="24sp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvDay" />
+
+                <TextView
+                        android:id="@+id/tvSessionTime"
+                        style="@style/TextAppearance.AttendanceApp.Body"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="09:00 - 11:00"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvCurrentSession" />
 
                 <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnScan"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="Scan QR Code"
+                        android:layout_marginTop="28dp"
+                        android:paddingVertical="14dp"
+                        android:text="SCAN QR CODE"
+                        android:textSize="16sp"
+                        app:cornerRadius="8dp"
                         app:icon="@android:drawable/ic_menu_camera"
+                        app:iconGravity="textStart"
+                        app:iconPadding="12dp"
+                        app:iconSize="24dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvCurrentSession" />
+                        app:layout_constraintTop_toBottomOf="@id/tvSessionTime" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardSessionsActions"
-                style="@style/Widget.AttendanceApp.CardView"
-                android:layout_width="match_parent"
+        <!-- Stats Row - with spacing from card above -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/statsContainer"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="40dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cardCurrentSession">
 
+            <!-- Total Scans Stat -->
+            <LinearLayout
+                    android:id="@+id/totalScansContainer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toStartOf="@+id/attendanceRateContainer"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@android:drawable/ic_menu_myplaces"
+                        app:tint="@color/primary" />
+
+                <TextView
+                        android:id="@+id/tvTotalScansCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="128"
+                        android:textColor="@color/dark_gray"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Total Scans"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- Attendance Rate Stat -->
+            <LinearLayout
+                    android:id="@+id/attendanceRateContainer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toEndOf="@+id/totalScansContainer"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@android:drawable/ic_menu_recent_history"
+                        app:tint="@color/success" />
+
+                <TextView
+                        android:id="@+id/tvAttendanceRate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="92%"
+                        android:textColor="@color/dark_gray"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Attendance Rate"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="14sp" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Quick Actions Section -->
+        <TextView
+                android:id="@+id/tvActionsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="40dp"
+                android:text="Quick Actions"
+                android:textColor="@color/dark_gray"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/statsContainer" />
+
+        <!-- Sessions Card -->
+        <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardSessionsActions"
+                style="@style/Widget.AttendanceApp.CardView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvActionsTitle">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                <ImageView
+                        android:id="@+id/ivSessionsIcon"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@android:drawable/ic_menu_sort_by_size"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/primary" />
 
                 <TextView
                         android:id="@+id/tvSessionsTitle"
                         style="@style/TextAppearance.AttendanceApp.Subtitle"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
                         android:text="Sessions"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:textColor="@color/dark_gray"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@+id/tvSessionsDesc"
+                        app:layout_constraintEnd_toStartOf="@+id/btnSessions"
+                        app:layout_constraintStart_toEndOf="@+id/ivSessionsIcon"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                        android:id="@+id/tvSessionsDesc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="View and manage all sessions"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/btnSessions"
+                        app:layout_constraintStart_toEndOf="@+id/ivSessionsIcon"
+                        app:layout_constraintTop_toBottomOf="@+id/tvSessionsTitle" />
 
                 <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnSessions"
-                        style="@style/Widget.AttendanceApp.Button.Secondary"
-                        android:layout_width="0dp"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="View All Sessions"
-                        app:icon="@android:drawable/ic_menu_sort_by_size"
+                        android:minWidth="0dp"
+                        android:paddingHorizontal="12dp"
+                        android:text="View"
+                        android:textColor="@color/primary"
+                        app:cornerRadius="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvSessionsTitle" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:strokeColor="@color/primary"
+                        app:strokeWidth="1.5dp" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Recent Activity Section -->
+        <TextView
+                android:id="@+id/tvRecentTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="40dp"
+                android:text="Recent Activity"
+                android:textColor="@color/dark_gray"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardSessionsActions" />
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnClearHistory"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:minWidth="0dp"
+                android:paddingHorizontal="12dp"
+                android:text="Clear"
+                android:textColor="@color/primary"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/tvRecentTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvRecentTitle"
+                app:rippleColor="@color/primary_light" />
+
+        <!-- Recent Scans Card with improved design -->
         <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardRecentScans"
                 style="@style/Widget.AttendanceApp.CardView"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="16dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cardSessionsActions">
+                app:layout_constraintTop_toBottomOf="@id/tvRecentTitle"
+                app:layout_constraintVertical_bias="0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                <TextView
-                        android:id="@+id/tvRecentScansTitle"
-                        style="@style/TextAppearance.AttendanceApp.Subtitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Recent Scans"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnClearHistory"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Clear"
-                        android:textColor="@color/primary"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="@id/tvRecentScansTitle"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/tvRecentScansTitle" />
+                    android:layout_height="wrap_content"
+                    android:minHeight="120dp"
+                    android:padding="16dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvRecentScans"
                         android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:nestedScrollingEnabled="false"
+                        android:paddingBottom="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvRecentScansTitle"
+                        app:layout_constraintTop_toTopOf="parent"
                         tools:itemCount="3"
                         tools:listitem="@layout/item_scan" />
 
@@ -168,18 +418,20 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:padding="16dp"
-                        android:text="No recent scans"
+                        android:padding="24dp"
+                        android:text="No recent activity"
                         android:textColor="@color/text_secondary"
+                        android:textSize="16sp"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvRecentScansTitle" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Loading indicator -->
         <ProgressBar
                 android:id="@+id/progressBar"
                 android:layout_width="wrap_content"
