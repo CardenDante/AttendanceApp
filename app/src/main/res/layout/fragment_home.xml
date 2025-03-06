@@ -121,30 +121,21 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/sessionTitleContainer" />
 
+                <!-- Session time is now the main session display -->
                 <TextView
-                        android:id="@+id/tvCurrentSession"
+                        android:id="@+id/tvSessionTime"
                         style="@style/TextAppearance.AttendanceApp.Body"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="Loading..."
+                        android:text="09:00 - 11:00"
                         android:textColor="@color/dark_gray"
                         android:textSize="24sp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvDay" />
 
-                <TextView
-                        android:id="@+id/tvSessionTime"
-                        style="@style/TextAppearance.AttendanceApp.Body"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:text="09:00 - 11:00"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvCurrentSession" />
+                <!-- Removed duplicate current session TextView -->
 
                 <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnScan"
@@ -200,7 +191,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="128"
+                        android:text="0"
                         android:textColor="@color/dark_gray"
                         android:textSize="24sp"
                         android:textStyle="bold" />

@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
 object ApiClient {
     // Change this to your actual Flask API URL
     // For emulator, use 10.0.2.2 to access localhost
-    private const val BASE_URL = "http://192.168.0.100:5000"
+    private const val BASE_URL = "http://192.168.0.103:5000"
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY

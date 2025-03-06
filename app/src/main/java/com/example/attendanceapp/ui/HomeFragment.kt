@@ -54,13 +54,21 @@ class HomeFragment : Fragment() {
 
         // Initialize views
         tvDay = view.findViewById(R.id.tvDay)
-        tvCurrentSession = view.findViewById(R.id.tvCurrentSession)
         tvSessionTime = view.findViewById(R.id.tvSessionTime)
         rvRecentScans = view.findViewById(R.id.rvRecentScans)
         tvNoScans = view.findViewById(R.id.tvNoScans)
         progressBar = view.findViewById(R.id.progressBar)
 
-        // Initialize stats views (if they exist in your layout)
+        // Initialize current session view - might be hidden in some layouts
+        try {
+            tvCurrentSession = view.findViewById(R.id.tvCurrentSession)
+            // Hide the duplicate current session text view
+            tvCurrentSession.visibility = View.GONE
+        } catch (e: Exception) {
+            Log.d("HomeFragment", "Current session view not found or already removed")
+        }
+
+        // Initialize stats views
         try {
             tvTotalScansCount = view.findViewById(R.id.tvTotalScansCount)
             tvAttendanceRate = view.findViewById(R.id.tvAttendanceRate)
@@ -104,17 +112,20 @@ class HomeFragment : Fragment() {
             tvDay.text = "Today: ${data.day_name}"
 
             if (data.current_session != null) {
-                tvCurrentSession.text = data.current_session.time_slot
                 tvSessionTime.text = data.current_session.time_slot
+                // Only set tvCurrentSession if it's still visible and initialized
+                if (::tvCurrentSession.isInitialized && tvCurrentSession.visibility == View.VISIBLE) {
+                    tvCurrentSession.text = data.current_session.time_slot
+                }
             } else {
-                tvCurrentSession.text = "No current session"
                 tvSessionTime.text = "--:-- - --:--"
+                if (::tvCurrentSession.isInitialized && tvCurrentSession.visibility == View.VISIBLE) {
+                    tvCurrentSession.text = "No current session"
+                }
             }
 
-            // Update stats if available
-            if (::tvTotalScansCount.isInitialized && ::tvAttendanceRate.isInitialized) {
-                // Set static values for now - replace when you add these to your data model
-                tvTotalScansCount.text = "128"
+            // Default attendance rate - can be adjusted based on your needs
+            if (::tvAttendanceRate.isInitialized) {
                 tvAttendanceRate.text = "92%"
             }
         }
@@ -125,12 +136,16 @@ class HomeFragment : Fragment() {
             if (scansList.isEmpty()) {
                 rvRecentScans.visibility = View.GONE
                 tvNoScans.visibility = View.VISIBLE
+                // Set total scans to 0 if there are no scans
+                if (::tvTotalScansCount.isInitialized) {
+                    tvTotalScansCount.text = "0"
+                }
             } else {
                 rvRecentScans.visibility = View.VISIBLE
                 tvNoScans.visibility = View.GONE
                 recentScansAdapter.submitList(scansList)
 
-                // If you want to update total scans count based on scan history
+                // Update total scans count based on actual scan history size
                 if (::tvTotalScansCount.isInitialized) {
                     tvTotalScansCount.text = scansList.size.toString()
                 }
