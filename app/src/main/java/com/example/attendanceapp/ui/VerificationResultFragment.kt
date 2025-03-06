@@ -1,4 +1,3 @@
-// ui/VerificationResultFragment.kt
 package com.example.attendanceapp.ui
 
 import android.os.Bundle
@@ -43,7 +42,10 @@ class VerificationResultFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity())[AttendanceViewModel::class.java]
 
         // Initialize views
-        ivResultIcon = view.findViewById(R.id.ivResultIcon)
+        // Look for ivResultIcon inside the cardResultIcon container
+        val cardResultIcon = view.findViewById<View>(R.id.cardResultIcon)
+        ivResultIcon = cardResultIcon.findViewById(R.id.ivResultIcon) ?: view.findViewById(R.id.ivResultIcon)
+
         tvStatus = view.findViewById(R.id.tvStatus)
         tvMessage = view.findViewById(R.id.tvMessage)
         tvParticipantName = view.findViewById(R.id.tvParticipantName)
@@ -51,18 +53,13 @@ class VerificationResultFragment : Fragment() {
         btnDone = view.findViewById(R.id.btnDone)
         btnScanAnother = view.findViewById(R.id.btnScanAnother)
 
-        // Set up back button
-        view.findViewById<ImageView>(R.id.ivBackButton)?.setOnClickListener {
-            findNavController().navigateUp()
-        }
-
         // Set up button click listeners
         btnDone.setOnClickListener {
-            findNavController().navigate(R.id.homeFragment as Int)
+            findNavController().navigate(R.id.action_verificationResultFragment_to_homeFragment)
         }
 
         btnScanAnother.setOnClickListener {
-            findNavController().navigate(R.id.scannerFragment as Int)
+            findNavController().navigate(R.id.action_verificationResultFragment_to_scannerFragment)
         }
 
         // Observe ViewModel
@@ -79,13 +76,23 @@ class VerificationResultFragment : Fragment() {
 
     private fun updateUI(isSuccess: Boolean, message: String, name: String?, id: String?) {
         if (isSuccess) {
-            ivResultIcon.setImageResource(R.drawable.ic_check)
-            ivResultIcon.setBackgroundResource(R.drawable.bg_circle_success)
+            try {
+                ivResultIcon.setImageResource(R.drawable.ic_check)
+                ivResultIcon.setBackgroundResource(R.drawable.bg_circle_success)
+            } catch (e: Exception) {
+                // Fallback to system icon if custom icons aren't available
+                ivResultIcon.setImageResource(android.R.drawable.ic_menu_info_details)
+            }
             tvStatus.text = "Success"
             tvStatus.setTextColor(resources.getColor(R.color.success, null))
         } else {
-            ivResultIcon.setImageResource(R.drawable.ic_error)
-            ivResultIcon.setBackgroundResource(R.drawable.bg_circle_error)
+            try {
+                ivResultIcon.setImageResource(R.drawable.ic_error)
+                ivResultIcon.setBackgroundResource(R.drawable.bg_circle_error)
+            } catch (e: Exception) {
+                // Fallback to system icon if custom icons aren't available
+                ivResultIcon.setImageResource(android.R.drawable.ic_dialog_alert)
+            }
             tvStatus.text = "Error"
             tvStatus.setTextColor(resources.getColor(R.color.error, null))
         }
